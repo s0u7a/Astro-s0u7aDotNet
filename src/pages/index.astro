@@ -5,20 +5,4 @@ import Layout from '../layouts/Layout.astro'
 <Layout title="s0u7a.net">
   <h1>s0u7a.net</h1>
   <p>これはs0u7aのサイトです</p>
- <p>現在時刻は <span id="text"></span>です</p>
-
-  <script type="text/javascript">
-  document.getElementById("text").innerHTML = showTime();
-  
-  function showTime() {
-    var now = new Date();
-    var nowhour = now.getHours();
-    var nowminutes = now.getMinutes();
-    var nowseconds = now.getSeconds();
-  
-    var text = nowhour + "：" + nowminutes + "：" + nowseconds; 
-    
-    return text;
-  }
-  </script>
 </Layout>
