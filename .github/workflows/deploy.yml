@@ -22,8 +22,11 @@ jobs:
         run: bun i
       - name: Build
         run: bun run build
+      - name: show dir info
+        run: |
+          pwd
+          ls
 
-      - uses: actions/checkout@v2
       - name: Publish
         uses: cloudflare/wrangler-action@v3
         with:
