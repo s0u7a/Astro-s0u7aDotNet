@@ -19,9 +19,9 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Install deps
-        run: npm i
+        run: bun i
       - name: Build on NodeJS
-        run: npm run build
+        run: bun run build
       - name: show dir info
         run: |
           pwd
