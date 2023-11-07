@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+
 interface Props {
     title: string;
 	description: string;
@@ -38,3 +40,4 @@ function parseOGP(link: string): string {
 <meta name="twitter:creator" content="@amex2189">
 <!-- HTMX RUNTIME -->
 <script src="/_htmx.js" is:inline></script>
+<ViewTransitions />
