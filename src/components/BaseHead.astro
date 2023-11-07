@@ -12,6 +12,7 @@ const url = Astro.url;
 function parseOGP(link: string): string {
     return link.replace("://", ":/:/").replace("//", "/").replace(":/:/", "://")
 }
+
 ---
 <meta charset="UTF-8" />
 <meta name="description" content={description} />
