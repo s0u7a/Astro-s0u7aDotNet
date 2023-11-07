@@ -1,4 +1,4 @@
-name: Deploy
+name: S0u7a-Bet-Deploy
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
 
       - name: Install deps
         run: bun i
-      - name: Build
+      - name: Build on Bun
         run: bun run build
       - name: show dir info
         run: |
