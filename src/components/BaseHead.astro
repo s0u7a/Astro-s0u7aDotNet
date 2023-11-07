@@ -1,0 +1,43 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+    title: string;
+	description: string;
+	icon: string;
+}
+
+const { title, description, icon } = Astro.props
+
+const url = Astro.url;
+
+function parseOGP(link: string): string {
+    return link.replace("://", ":/:/").replace("//", "/").replace(":/:/", "://")
+}
+
+---
+<meta charset="UTF-8" />
+<meta name="description" content={description} />
+<meta name="viewport" content="width=device-width" />
+<link rel="icon shortcut" type="image/svg+xml" href={icon} />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+<!-- OGP -->
+<meta property="og:type" content="website">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:site_name" content={title}>
+<meta property="og:url" content={url}>
+<meta property="og:image" content={parseOGP(url + icon)}>
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta property="og:locale" content="ja_JP">
+<!-- OGP for Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={parseOGP(url + icon)}>
+<meta name="twitter:creator" content="@amex2189">
+<!-- HTMX RUNTIME -->
+<script src="/_htmx.js" is:inline></script>
+<ViewTransitions />
