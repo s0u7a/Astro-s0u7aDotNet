@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  BuildThenDeploy:
     runs-on: ubuntu-latest
 
     steps:
