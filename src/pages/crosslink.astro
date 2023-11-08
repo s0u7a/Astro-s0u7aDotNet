@@ -1,8 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro'
+
+const content = [
+  {
+    "Link": "https://www.ame-x.net",
+    "Desc": "Ame_xのホームページ"
+  }
+]
+
 ---
 
 <Layout title="CROSSLINK | s0u7a.net" description="s0u7a.net CrossLink" icon="/favicon.svg">
   <h1>相互リンク</h1>
-
+  {
+    content.map(c => {
+      return <>
+        <a href={c["Link"]}>{c["Link"]}</a>
+        <p>{c["Desc"]}</p>
+      </>
+    })
+  }
 </Layout>
