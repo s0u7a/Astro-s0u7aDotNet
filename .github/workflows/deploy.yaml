@@ -3,7 +3,6 @@ name: Deploy to s0u7a.net via Cloudflare Pages
 
 on:
   push:
-  pull_request:
 
 permissions:
   contents: read
