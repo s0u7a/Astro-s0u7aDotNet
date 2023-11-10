@@ -1,4 +1,4 @@
-name: Deploy to s0u7a.net via Cloudflare Pages
+name: Deploy to 's0u7a.net' via Cloudflare Pages
 
 on:
   push:
@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-deploy:
+  Setup:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,14 +19,25 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Install deps
-        run: bun i
-      - name: Build on NodeJS
-        run: bun run build
+        run: npm i
+  Build:
+    needs: Setup
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Build
+        continue-on-error: true
+        run: npm run build
       - name: show dir info
         run: |
           pwd
           ls
 
+  Deploy:
+    needs: Build
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Publish
         uses: cloudflare/wrangler-action@v3
         with:
