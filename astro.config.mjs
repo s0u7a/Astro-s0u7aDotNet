@@ -8,5 +8,6 @@ export default defineConfig({
   integrations: [
 tailwind()
   ],
-  site: "https://s0u7a.net"
+  base: "/",
+  site: "https://s0u7a.net/"
 });
