@@ -22,8 +22,11 @@ function parseOGP(link: string): string {
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content="#0F172A"/>
+<link rel="canonical" href="https://s0u7a.net/" />
 <title>{title}</title>
 <!-- OGP -->
+<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="website" />
 <meta property="og:type" content="website">
 <meta property="og:title" content={title}>
 <meta property="og:description" content={description}>
@@ -86,4 +89,5 @@ function parseOGP(link: string): string {
 <link rel="icon" type="image/png" sizes="24x24" href="/icon-24x24.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png">
 <link rel="manifest" href="/manifest.json">
+<script>const registerServiceWorker=async()=>{if("serviceWorker"in navigator)try{let e=await navigator.serviceWorker.register("/sw.js",{scope:"/"});e.installing?console.log("Service worker installing"):e.waiting?console.log("Service worker installed"):e.active&&console.log("Service worker active")}catch(r){console.error(`Registration failed with ${r}`)}};registerServiceWorker();</script>
 <ViewTransitions />
