@@ -1,59 +1,76 @@
 //キャッシュ名(=バージョン)を指定する
-var CACHE_NAME = "cache-v1";
+var CACHE_NAME = "cache-v2";
+// キャッシュのバージョン
+const CACHE_VERSION = 2;
 //キャッシュするファイル or ディレクトリを指定する
 var urlsToCache = [
   "/",
 ];
 
 // install
-self.addEventListener("install", function (event) {
-  event.waitUntil(self.skipWaiting());
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      console.log("Opened cache");
-      return cache.addAll(urlsToCache);
-    })
-  );
+// キャッシュ名とキャッシュバージョンからキーを作る
+const CACHE_KEY = `${CACHE_NAME}:${CACHE_VERSION}`;
+
+// インストール時の処理
+this.addEventListener('install', function(event) {
+    // waitUntil()でイベントの完了を処理が成功するまで遅延させる
+    event.waitUntil(self.skipWaiting());
+    event.waitUntil(
+        // cacheStorageの中に指定したキーのcacheを新しく作成して開く
+        caches.open(CACHE_KEY).then(function(cache) {
+        // パスの一覧を渡してcacheに追加する
+            return cache.addAll(CACHE_FILES);
+        })
+    );
 });
 // activate
-self.addEventListener("activate", function (event) {
-  var cacheWhitelist = [CACHE_NAME];
+// 有効化した時点で処理を行なう
+this.addEventListener('activate', function(event) {
+  // waitUntil()でイベントの完了を処理が成功するまで遅延させる
   event.waitUntil(self.clients.claim());
   event.waitUntil(
-    caches.keys().then(function (cacheNames) {
-      return Promise.all(
-        cacheNames.map(function (cacheName) {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+      // cacheStorageの中の全てのcacheを確認する
+      caches.keys().then(function(cacheKeys) {
+          return Promise.all(
+              cacheKeys.filter(function(cacheKey) {
+                  // キー名を確認してキャッシュ名とバージョンを確認する
+                  const [cacheName, cacheVersion] = cacheKey.split(':');
+                  // 同じキャッシュ名でバージョンが異なるものを削除対象とする
+                  return cacheName == CACHE_NAME && cacheVersion != CACHE_VERSION;
+              }).map(function(cacheKey) {
+                  // 削除対象としたキーのcacheを全てcacheStorageから削除する
+                  return caches.delete(cacheKey);
+              })
+          );
+      })
   );
 });
-// fetch
-self.addEventListener("fetch", function (event) {
+// fetch  event.waitUntil(self.clients.claim());event.waitUntil(self.skipWaiting());
+// キャッシュ対象ファイルかどうかを判定する
+const isTargetFile = function(url) {
+  return CACHE_FILES.indexOf(new URL(url).pathname) >= 0;
+};
+
+// スコープ内のページからのリクエストによりfetchイベントが発火する
+this.addEventListener('fetch', function(event) {
+  // レスポンスを宣言する
   event.respondWith(
-    caches.match(event.request).then(function (response) {
-      if (response) {
-        return response;
-      }
-
-      var fetchRequest = event.request.clone();
-
-      return fetch(fetchRequest).then(function (response) {
-        if (!response || response.status !== 200 || response.type !== "basic") {
-          return response;
-        }
-
-        var responseToCache = response.clone();
-
-        caches.open(CACHE_NAME).then(function (cache) {
-          cache.put(event.request, responseToCache);
-        });
-
-        return response;
-      });
-    })
+      // cacheStorageの中から管理しているcacheを開く
+      caches.open(CACHE_KEY).then(function(cache) {
+          // cache内にこのリクエストに対するキャッシュが存在するか確認する
+          return cache.match(event.request).then(function(response) {
+              // もしキャッシュがあればそれを返す
+              if (response) return response;
+              // もし無ければネットワークに取得しに行く
+              return fetch(event.request).then(function(response) {
+                  // キャッシュ対象のファイルでキャッシュすべきレスポンスであればキャッシュする
+                  if (isTargetFile(event.request.url) && response.ok) {
+                      cache.put(event.request, response.clone());
+                  }
+                  // レスポンスを返す
+                  return response;
+              });
+          });
+      })
   );
 });
