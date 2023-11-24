@@ -19,9 +19,9 @@ jobs:
         uses: oven-sh/setup-bun@v1
 
       - name: Install deps
-        run: bun i
+        run: bun --bun i
       - name: Build on Bun
-        run: bun run build
+        run: bun --bun run build
       - name: show dir info
         run: |
           pwd
