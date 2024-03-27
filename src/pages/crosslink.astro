@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro'
 const content = [
   {
     "Link": "https://www.ame-x.net",
-    "Desc": "Ame_xのホームページ"
+    "Desc": "現在は消息が不明なAme_xのホームページ"
   },
   {
     "Link": "https://activetk.jp",
@@ -16,7 +16,7 @@ const content = [
   },
   {
     "Link": "https://表現の自由.xyz",
-    "Desc": "空髪のホームページ"
+    "Desc": "EggToastのホームページ"
   },
   {
     "Link": "https://Xely.net",
@@ -31,7 +31,7 @@ const content = [
   {
     content.map(c => {
       return <>
-        <a href={c["Link"]}>{c["Link"]}</a>
+        <a href={c["Link"]}>{c["Link"]}</a>4
         <p>{c["Desc"]}</p>
       </>
     })
@@ -41,7 +41,13 @@ const content = [
     width: 200px;
     height: 40px;
 }
-
+img {
+  margin: auto;
+  display: block;
+}
+*{
+  text-align: center;
+}
 </style>
 
   <a href="//rumiserver.com/sinch"><img src="//rumiserver.com/Asset/rumisan_room/BANNR.png" alt="rumiserverのバナー的" class="banner"></a>
