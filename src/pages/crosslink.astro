@@ -31,7 +31,7 @@ const content = [
   {
     content.map(c => {
       return <>
-        <a href={c["Link"]}>{c["Link"]}</a>4
+        <a href={c["Link"]}>{c["Link"]}</a>
         <p>{c["Desc"]}</p>
       </>
     })
@@ -46,6 +46,10 @@ img {
   display: block;
 }
 *{
+  text-align: center;
+}
+a{
+  color :blue;
   text-align: center;
 }
 </style>
